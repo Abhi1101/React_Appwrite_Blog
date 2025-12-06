@@ -8,14 +8,16 @@ import { useNavigate } from 'react-router'
 
 
 function PostForm({ post }) {
-    const { register, handleSubmit, watch, setValue, control, getValues } = useForm({
+    const { register, handleSubmit, watch, setValue, control, getValues, formState  } = useForm({
         defaultValues: {
             title: post ? post.title : '',
             slug: post ? post.slug : '',
             content: post ? post.content : '',
-            status: post? post.status : 'active',
+            status: post ? post.status : 'active',
         },
     });
+
+    const { isSubmitting, errors } = formState;
 
     const navigate = useNavigate();
     const userData = useSelector(state => state.authSlice.userData);
@@ -39,28 +41,28 @@ function PostForm({ post }) {
             if (dbPost) {
                 navigate(`/post/${dbPost.$id}`)
             }
-            }
-            else {
-                
-                console.log("testcode | postform.jsx | inside else block , ");
+        }
+        else {
 
-                const file = data.image[0] ? await service.uploadFile(data.image[0]) : null;
+            console.log("testcode | postform.jsx | inside else block , ");
 
-                if (file) {
-                    const fileId = file.$id;
-                    data.featuredImage = fileId;
-                    const dbPost = await service.createPost({
-                        ...data,
-                        userId: userData.$id,
-                    })
+            const file = data.image[0] ? await service.uploadFile(data.image[0]) : null;
 
-                    if (dbPost) {
-                        navigate(`/post/${dbPost.$id}`);
-                    }
+            if (file) {
+                const fileId = file.$id;
+                data.featuredImage = fileId;
+                const dbPost = await service.createPost({
+                    ...data,
+                    userId: userData.$id,
+                })
+
+                if (dbPost) {
+                    navigate(`/post/${dbPost.$id}`);
                 }
-
             }
-        
+
+        }
+
 
     }
 
@@ -105,19 +107,21 @@ function PostForm({ post }) {
                     placeholder='Title'
                     className='mb-4'
                     {...register('title', {
-                        required: true,
+                        required: 'This Field Is Required...',
                     })}
                 />
+                {errors.title && <p className='text-red-500 font-bold '>{errors.title.message}</p>}
 
                 <Input
                     label="Slug :"
                     placeholder='Slug'
                     className='mb-4'
-                    {...register('slug', { required: true, })}
+                    {...register('slug', { required: 'This Field Is Required...', })}
                     onInput={(e) => {
                         setValue('slug', slugTransform(e.currentTarget.value), { shouldValidate: true, });
                     }}
                 />
+                {errors.slug && <p className='text-red-500 font-bold '>{errors.slug.message}</p>}
 
                 <RTE
                     label='content :'
@@ -125,51 +129,62 @@ function PostForm({ post }) {
                     control={control}
                     defaultValue={setValue('content')}
                 />
+                {errors.content && <p className='text-red-500 font-bold '>{errors.content.message}</p>}
 
             </div>
-            
+
             <div className="w-1/3 px-2">
                 <Input
-                label='Featured image'
-                type='file'
-                className="mb-4"
-                accept="image/png, image/jpg, image/jpeg, image/gif"
-                {...register('image', { required: !post, })}
+                    label='Featured image'
+                    type='file'
+                    className="mb-4"
+                    accept="image/png, image/jpg, image/jpeg, image/gif"
+                    {...register('image', { required: !post })}
                 />
+
 
                 {
                     post && (
                         <div className="w-full mb-4">
-                            <img 
-                            src={`https://nyc.cloud.appwrite.io/v1/storage/buckets/691b343400292108d031/files/${post.featuredImage}/view?project=691b2a96003e6f9ded7c&mode=admin`} 
-                            // src={service.getFilePreview(post.featuredImage)} 
-                            alt={post.title}
-                            className='rounded-lg' 
+                            <img
+                                src={`https://nyc.cloud.appwrite.io/v1/storage/buckets/691b343400292108d031/files/${post.featuredImage}/view?project=691b2a96003e6f9ded7c&mode=admin`}
+                                // src={service.getFilePreview(post.featuredImage)} 
+                                alt={post.title}
+                                className='rounded-lg'
                             />
                         </div>
                     )
-                
+
                 }
 
                 <Select
-                label='status'
-                options={['active', 'inactive']}
-                className='mb-4'
-                {...register('status', { required: true ,})}
+                    label='status'
+                    options={['active', 'inactive']}
+                    className='mb-4'
+                    {...register('status', { required: true, })}
 
                 />
+                
 
                 <Button
-                type='submit'
-                bgColor={post ? "bg-green-500" : undefined} 
-                className="w-full"
+                    type='submit'
+                    bgColor={post ? "bg-green-500" : undefined}
+                    className="w-full"
+                    disabled={isSubmitting}
+
                 >
-                {post ? "Update" : "Submit"}    
-                 </Button>    
+                    {/* {post ? "Update" : "Submit"} */}
+                    {post ? (isSubmitting ? "Updating..." : "Update") : (isSubmitting ? "Submitting..." : "Submit") }
+                    
+
+                </Button>
+
+                
+
 
             </div>
 
-               
+
         </form>
     )
 }
