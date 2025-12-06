@@ -12,12 +12,6 @@ function LogoutBtn() {
         authservice.logout()
             .then(() =>{ 
                 dispatch(logout())
-                navigate('/');
-                const curUrl = window.location.href;
-                if(curUrl == 'http://localhost:5173/'){
-                    location.reload();
-                } 
-
             })
    }
 

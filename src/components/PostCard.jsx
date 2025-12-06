@@ -39,11 +39,10 @@ function PostCard({ $id, title, featuredImage }) {
     return (
         <Link to={`post/${$id}`}>
             
-            <div className='w-full bg-gray-100 rounded-xl p-4'>
+            <div className='w-full bg-gray-100 rounded-xl p-2'>
                 <div className='w-full justify-center mb-4'>
                     <img 
-                    // src={service.getFilePreview(featuredImage)}
-                    src={`https://nyc.cloud.appwrite.io/v1/storage/buckets/691b343400292108d031/files/${featuredImage}/view?project=691b2a96003e6f9ded7c&mode=admin`} 
+                    src={service.getFilePreview(featuredImage)}
                     alt={title} 
                     className='rounded-xl'
                      />
@@ -53,6 +52,7 @@ function PostCard({ $id, title, featuredImage }) {
                     {title}
                 </h2>
             </div>
+
         </Link>
     )
 }

@@ -30,7 +30,7 @@ function App() {
 
   return !loader ? (
     <>
-      <div className='min-w-screen ' >
+      <div className='' >
         <div className='w-full bg-gray-400'>
           <Header />
           <main>

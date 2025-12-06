@@ -147,8 +147,7 @@ function PostForm({ post }) {
                     post && (
                         <div className="w-full mb-4">
                             <img
-                                src={`https://nyc.cloud.appwrite.io/v1/storage/buckets/691b343400292108d031/files/${post.featuredImage}/view?project=691b2a96003e6f9ded7c&mode=admin`}
-                                // src={service.getFilePreview(post.featuredImage)} 
+                                src={service.getFilePreview(post.featuredImage)} 
                                 alt={post.title}
                                 className='rounded-lg'
                             />
