@@ -14,7 +14,10 @@ function SignUp() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [error, setError] = useState('');
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, formState } = useForm()
+
+    const { isSubmitting, errors } = formState;
+
 
     const create = async (data) => {
         setError('');
@@ -94,8 +97,10 @@ function SignUp() {
                         <Button
                             type='submit'
                             className="w-full"
+                            disabled={isSubmitting}
+
                         >
-                            Create Account
+                            {isSubmitting ? "Account Creating..." : "Create Account"}
                         </Button>
 
 

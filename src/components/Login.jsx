@@ -12,7 +12,9 @@ function Login() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [error, setError] = useState('');
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit , formState } = useForm()
+
+    const { isSubmitting, errors } = formState;
 
     const login = async (data) => {
         setError('');
@@ -81,11 +83,15 @@ function Login() {
 
                         <Button
                             type='submit'
-                            className="w-full">
-                            Sign In
+                            className="w-full"
+                            disabled={isSubmitting}
+                            >
+                            {isSubmitting ? "Signing In..." : "Sign In"}
                         </Button>
+                        
 
                     </div>
+                    
                 </form>
 
 
