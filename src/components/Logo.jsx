@@ -8,7 +8,8 @@ function Logo({widht='100px' , className=''}) {
     <img
     width={widht}
     className={`${className} `}
-    src={service.getFilePreview(fileId)}
+    // src={service.getFilePreview(fileId)}
+    src={'https://res.cloudinary.com/deluggjl1/image/upload/v1772031279/POST_1_awktcs.png'}
     alt=""
     />
   )

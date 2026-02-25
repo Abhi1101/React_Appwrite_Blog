@@ -23,12 +23,12 @@ function Home() {
     
   if(posts.length === 0){ //ERROR HERE
          return (
-            <div className="w-full py-8 mt-4 text-center">
+            <div className="w-full py-8 text-center flex justify-center items-center">
                 <Container>
                     <div className="flex flex-wrap">
-                        <div className="p-2 w-full">
+                        <div className="p-2 h-full w-full py-8 text-center flex justify-center items-center">
                             <h1 className="text-2xl font-bold hover:text-gray-500">
-                                NO POST FOUND
+                                NO POST FOUND!!! LOGIN TO READ POST
                             </h1>
                         </div>
                     </div>
@@ -43,7 +43,7 @@ function Home() {
             <Container>
                 <div className='flex flex-wrap'>
                     {posts.map((post) => (
-                        <div key={post.$id} className='p-2 w-1/4'>
+                        <div key={post.$id} className='p-2 w-1/4 '>
                             <PostCard {...post} />
                         </div>
                     ))}

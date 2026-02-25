@@ -22,13 +22,10 @@ function AllPost() {
     return (
     <div className='w-full py-8'>
          <Container>
-            <div className='w-full flex gap-6'>
-            {
-            console.log('testcode | allpost.jsx | inside return | after setposts - posts ', posts)
-            }
+            <div className='flex flex-wrap'>
             {                                                                              
                 posts.map( (post)=> (
-                    <div key={post.$id} className='p-0.5 w-1/3 '>
+                    <div key={post.$id} className='p-2 w-1/4 '>
                         <PostCard {...post} />          
                     </div>
                 ) )
